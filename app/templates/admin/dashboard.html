@@ -37,7 +37,7 @@
                     <td>{{ log.user.username }}</td>
                     <td>{{ log.action }}</td>
                     <td>{{ log.resource_type }}</td>
-                    <td>{{ log.details[:50] if log.details else '-' }}{% if log.details and log.details|length > 50 %}...{% endif %}</td>
+                    <td>{{ (log.details[:50] + '...') if log.details and log.details|length > 50 else (log.details if log.details else '-') }}</td>
                     <td>{{ log.timestamp.strftime('%Y-%m-%d %H:%M') }}</td>
                 </tr>
                 {% endfor %}
