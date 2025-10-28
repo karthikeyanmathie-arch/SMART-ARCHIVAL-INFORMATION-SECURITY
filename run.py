@@ -40,5 +40,7 @@ def create_admin():
 
 if __name__ == '__main__':
     # Run development server
+    # WARNING: debug=True should only be used in development, not production
     port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port, debug=True)
+    debug_mode = os.environ.get('FLASK_DEBUG', 'True').lower() == 'true'
+    app.run(host='0.0.0.0', port=port, debug=debug_mode)

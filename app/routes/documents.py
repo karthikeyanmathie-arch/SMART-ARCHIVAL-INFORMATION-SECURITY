@@ -28,12 +28,12 @@ def upload():
     if request.method == 'POST':
         if 'file' not in request.files:
             flash('No file selected.', 'error')
-            return redirect(request.url)
+            return redirect(url_for('documents.upload'))
         
         file = request.files['file']
         if file.filename == '':
             flash('No file selected.', 'error')
-            return redirect(request.url)
+            return redirect(url_for('documents.upload'))
         
         if file and allowed_file(file.filename):
             # Generate unique filename

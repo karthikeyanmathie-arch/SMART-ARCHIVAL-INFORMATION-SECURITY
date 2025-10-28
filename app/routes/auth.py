@@ -24,7 +24,10 @@ def login():
             log_activity(user.id, 'login', 'system', ip_address=request.remote_addr)
             flash('Login successful!', 'success')
             next_page = request.args.get('next')
-            return redirect(next_page) if next_page else redirect(url_for('main.dashboard'))
+            # Validate redirect URL to prevent open redirect vulnerability
+            if next_page and next_page.startswith('/'):
+                return redirect(next_page)
+            return redirect(url_for('main.dashboard'))
         else:
             flash('Invalid username or password.', 'error')
     
