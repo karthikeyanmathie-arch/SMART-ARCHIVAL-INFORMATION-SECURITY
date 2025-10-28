@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}Search - Smart Archival System{% endblock %}
+
+{% block content %}
+<div class="search-page">
+    <h1>Search Documents</h1>
+
+    <form method="GET" action="{{ url_for('search.search') }}" class="search-form">
+        <div class="form-group">
+            <input type="text" name="q" value="{{ query }}" placeholder="Search by title, description, tags, or filename..." class="search-input">
+        </div>
+
+        <div class="filter-group">
+            <div class="form-group">
+                <label for="category">Category:</label>
+                <input type="text" id="category" name="category" value="{{ category }}" placeholder="Filter by category">
+            </div>
+
+            <div class="form-group">
+                <label for="file_type">File Type:</label>
+                <input type="text" id="file_type" name="file_type" value="{{ file_type }}" placeholder="e.g., pdf, docx">
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+
+    {% if query or category or file_type %}
+        <div class="search-results">
+            <h2>Search Results ({{ results|length }} found)</h2>
+
+            {% if results %}
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Category</th>
+                            <th>Type</th>
+                            <th>Owner</th>
+                            <th>Uploaded</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for doc in results %}
+                        <tr>
+                            <td><a href="{{ url_for('documents.view', doc_id=doc.id) }}">{{ doc.title }}</a></td>
+                            <td>{{ doc.category }}</td>
+                            <td>{{ doc.file_type }}</td>
+                            <td>{{ doc.owner.username }}</td>
+                            <td>{{ doc.uploaded_at.strftime('%Y-%m-%d') }}</td>
+                            <td>
+                                <a href="{{ url_for('documents.view', doc_id=doc.id) }}" class="btn btn-sm">View</a>
+                                <a href="{{ url_for('documents.download', doc_id=doc.id) }}" class="btn btn-sm">Download</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>No documents found matching your search criteria.</p>
+            {% endif %}
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

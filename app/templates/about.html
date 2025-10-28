@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}About - Smart Archival System{% endblock %}
+
+{% block content %}
+<div class="about-page">
+    <h1>About Smart Archival Information Security System</h1>
+    
+    <section class="about-section">
+        <h2>Overview</h2>
+        <p>The Smart Archival Information Security System is a comprehensive digital platform designed to simplify and streamline the process of managing, storing, and retrieving organizational documents and information. This system enables users to efficiently archive records, perform intelligent searches, control access, and maintain data security through a user-friendly interface.</p>
+    </section>
+
+    <section class="about-section">
+        <h2>Key Features</h2>
+        <ul>
+            <li><strong>Secure Document Storage:</strong> Store documents with encryption and secure file handling</li>
+            <li><strong>User Authentication:</strong> Role-based access control with admin, user, and viewer roles</li>
+            <li><strong>Intelligent Search:</strong> Full-text search across document titles, descriptions, tags, and filenames</li>
+            <li><strong>Document Management:</strong> Upload, view, edit, download, archive, and delete documents</li>
+            <li><strong>Access Control:</strong> Set documents as private, shared, or public</li>
+            <li><strong>Audit Logging:</strong> Comprehensive tracking of all system activities</li>
+            <li><strong>Metadata Management:</strong> Organize documents with categories, tags, and descriptions</li>
+            <li><strong>Admin Dashboard:</strong> Manage users, documents, and view system logs</li>
+        </ul>
+    </section>
+
+    <section class="about-section">
+        <h2>Security Features</h2>
+        <ul>
+            <li>Password hashing using industry-standard algorithms</li>
+            <li>Session management with Flask-Login</li>
+            <li>Role-based access control</li>
+            <li>Audit logging for accountability</li>
+            <li>Secure file upload with validation</li>
+            <li>Protection against common web vulnerabilities</li>
+        </ul>
+    </section>
+
+    <section class="about-section">
+        <h2>Technology Stack</h2>
+        <ul>
+            <li>Backend: Python Flask</li>
+            <li>Database: SQLite with SQLAlchemy ORM</li>
+            <li>Authentication: Flask-Login</li>
+            <li>Security: Werkzeug security utilities</li>
+            <li>Frontend: HTML, CSS, JavaScript</li>
+        </ul>
+    </section>
+</div>
+{% endblock %}

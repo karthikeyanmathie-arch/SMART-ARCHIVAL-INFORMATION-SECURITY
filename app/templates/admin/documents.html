@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}All Documents - Smart Archival System{% endblock %}
+
+{% block content %}
+<div class="admin-documents">
+    <h1>All Documents</h1>
+
+    {% if documents.items %}
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Owner</th>
+                    <th>Category</th>
+                    <th>Type</th>
+                    <th>Access</th>
+                    <th>Uploaded</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for doc in documents.items %}
+                <tr>
+                    <td><a href="{{ url_for('documents.view', doc_id=doc.id) }}">{{ doc.title }}</a></td>
+                    <td>{{ doc.owner.username }}</td>
+                    <td>{{ doc.category }}</td>
+                    <td>{{ doc.file_type }}</td>
+                    <td>{{ doc.access_level|capitalize }}</td>
+                    <td>{{ doc.uploaded_at.strftime('%Y-%m-%d') }}</td>
+                    <td>
+                        <a href="{{ url_for('documents.view', doc_id=doc.id) }}" class="btn btn-sm">View</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Pagination -->
+        {% if documents.has_prev or documents.has_next %}
+        <div class="pagination">
+            {% if documents.has_prev %}
+                <a href="{{ url_for('admin.documents', page=documents.prev_num) }}" class="btn btn-sm">Previous</a>
+            {% endif %}
+            <span>Page {{ documents.page }} of {{ documents.pages }}</span>
+            {% if documents.has_next %}
+                <a href="{{ url_for('admin.documents', page=documents.next_num) }}" class="btn btn-sm">Next</a>
+            {% endif %}
+        </div>
+        {% endif %}
+    {% else %}
+        <p>No documents found.</p>
+    {% endif %}
+
+    <a href="{{ url_for('admin.dashboard') }}" class="btn btn-secondary">&larr; Back to Dashboard</a>
+</div>
+{% endblock %}

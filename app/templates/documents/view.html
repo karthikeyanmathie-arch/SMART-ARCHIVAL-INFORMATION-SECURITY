@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block title %}{{ document.title }} - Smart Archival System{% endblock %}
+
+{% block content %}
+<div class="document-view">
+    <div class="page-header">
+        <h1>{{ document.title }}</h1>
+        <div class="action-buttons">
+            {% if document.user_id == current_user.id %}
+                <a href="{{ url_for('documents.edit', doc_id=document.id) }}" class="btn btn-primary">Edit</a>
+                <form method="POST" action="{{ url_for('documents.archive', doc_id=document.id) }}" style="display: inline;">
+                    <button type="submit" class="btn btn-secondary">
+                        {% if document.is_archived %}Unarchive{% else %}Archive{% endif %}
+                    </button>
+                </form>
+                <form method="POST" action="{{ url_for('documents.delete', doc_id=document.id) }}" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this document?');">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            {% endif %}
+            <a href="{{ url_for('documents.download', doc_id=document.id) }}" class="btn btn-success">Download</a>
+        </div>
+    </div>
+
+    <div class="document-details">
+        <div class="detail-group">
+            <label>Filename:</label>
+            <span>{{ document.original_filename }}</span>
+        </div>
+
+        <div class="detail-group">
+            <label>File Type:</label>
+            <span>{{ document.file_type|upper }}</span>
+        </div>
+
+        <div class="detail-group">
+            <label>File Size:</label>
+            <span>{{ (document.file_size / 1024)|round(2) }} KB</span>
+        </div>
+
+        <div class="detail-group">
+            <label>Category:</label>
+            <span>{{ document.category }}</span>
+        </div>
+
+        <div class="detail-group">
+            <label>Access Level:</label>
+            <span class="badge">{{ document.access_level|capitalize }}</span>
+        </div>
+
+        <div class="detail-group">
+            <label>Status:</label>
+            {% if document.is_archived %}
+                <span class="badge badge-warning">Archived</span>
+            {% else %}
+                <span class="badge badge-success">Active</span>
+            {% endif %}
+        </div>
+
+        <div class="detail-group">
+            <label>Uploaded:</label>
+            <span>{{ document.uploaded_at.strftime('%Y-%m-%d %H:%M:%S') }}</span>
+        </div>
+
+        <div class="detail-group">
+            <label>Last Modified:</label>
+            <span>{{ document.modified_at.strftime('%Y-%m-%d %H:%M:%S') }}</span>
+        </div>
+
+        {% if document.description %}
+        <div class="detail-group full-width">
+            <label>Description:</label>
+            <p>{{ document.description }}</p>
+        </div>
+        {% endif %}
+
+        {% if document.tags %}
+        <div class="detail-group full-width">
+            <label>Tags:</label>
+            <div class="tags">
+                {% for tag in document.tags.split(',') %}
+                    <span class="tag">{{ tag.strip() }}</span>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="back-link">
+        <a href="{{ url_for('documents.list_documents') }}">&larr; Back to My Documents</a>
+    </div>
+</div>
+{% endblock %}
