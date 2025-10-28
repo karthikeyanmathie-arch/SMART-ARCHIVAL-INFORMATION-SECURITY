@@ -1,10 +1,17 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask_login import login_user, logout_user, current_user
+from urllib.parse import urlparse, urljoin
 from app.models import User
 from app import db
 from app.utils.helpers import log_activity
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
+
+def is_safe_url(target):
+    """Check if URL is safe for redirects"""
+    ref_url = urlparse(request.host_url)
+    test_url = urlparse(urljoin(request.host_url, target))
+    return test_url.scheme in ('http', 'https') and ref_url.netloc == test_url.netloc
 
 @bp.route('/login', methods=['GET', 'POST'])
 def login():
@@ -25,7 +32,7 @@ def login():
             flash('Login successful!', 'success')
             next_page = request.args.get('next')
             # Validate redirect URL to prevent open redirect vulnerability
-            if next_page and next_page.startswith('/'):
+            if next_page and is_safe_url(next_page):
                 return redirect(next_page)
             return redirect(url_for('main.dashboard'))
         else:
