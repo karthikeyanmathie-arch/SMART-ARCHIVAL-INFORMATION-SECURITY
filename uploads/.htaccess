@@ -1,0 +1,22 @@
+# Prevent execution of PHP files in uploads
+
+<Files "_.php">
+Order allow,deny
+Deny from all
+</Files>
+<Files "_.phtml">
+Order allow,deny
+Deny from all
+</Files>
+<Files "_.php3">
+Order allow,deny
+Deny from all
+</Files>
+<Files "_.php4">
+Order allow,deny
+Deny from all
+</Files>
+<Files "\*.php5">
+Order allow,deny
+Deny from all
+</Files>
